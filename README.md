@@ -20,6 +20,10 @@ vim my-custom.cnf
 [mysqld]
 max_connections=250
 
+<article class="markdown-body">
+Khởi tạo MySQL container docker run -it -d --name mysql --network sql -e MYSQL_ROOT_PASSWORD="12345" -v /opt/docker/mysql:/var/lib/mysql -v volume=/opt/docker/mysql/conf.d:/etc/mysql/conf.d -p 3306:3306 mysql:8.0.21
+</article>
+
 # Khởi tạo MySQL container docker run -it -d --name mysql --network sql -e MYSQL_ROOT_PASSWORD="12345" -v /opt/docker/mysql:/var/lib/mysql -v volume=/opt/docker/mysql/conf.d:/etc/mysql/conf.d -p 3306:3306 mysql:8.0.21
 
 Hướng dẫn các tham số:
