@@ -7,25 +7,19 @@ PhpMyAdmin là một công cụ phần mềm miễn phí viết bằng ngôn ng�
 
 Docker là một nền tảng phần mềm được thiết kế để giúp tạo, triển khai và chạy các ứng dụng dễ dàng hơn.
 
-Đầu tiên cúng ta sẽ tạo một Docker Network với tên sql nhằm mục đích khởi chạy Docker Container MySQL và phpMyAdmin trong network này.
-
-docker network create sql
+Đầu tiên cúng ta sẽ tạo một Docker Network với tên sql nhằm mục đích khởi chạy Docker Container MySQL và phpMyAdmin trong network `docker network create sql`
 
 Thực hiện lần lượt các lệnh sau đây sẽ khởi tạo MySQL Container trên Docker. Trước tiên, hãy tạo một thư mục dùng để lưu dữ liệu rồi sau đó chạy lệnh khởi tạo MySQL Container:
 
-Khởi tạo thư mục chứa dữ liệu mkdir -p /opt/docker/mysql
-Khởi tạo thư mục chứa file config 
-```mkdir -p /opt/docker/mysql/conf.d/```
-vim my-custom.cnf
+Khởi tạo thư mục chứa dữ liệu `mkdir -p /opt/docker/mysql`
+Khởi tạo thư mục chứa file config `mkdir -p /opt/docker/mysql/conf.d/`
+Khởi tạo file `my-custom.cnf`
+
 [mysqld]
 max_connections=250
 
-<article class="markdown-body">
-Khởi tạo MySQL container docker run -it -d --name mysql --network sql -e MYSQL_ROOT_PASSWORD="12345" -v /opt/docker/mysql:/var/lib/mysql -v volume=/opt/docker/mysql/conf.d:/etc/mysql/conf.d -p 3306:3306 mysql:8.0.21
-</article>
-
-# Khởi tạo MySQL container
-`docker run -it -d --name mysql --network sql -e MYSQL_ROOT_PASSWORD="12345" -v /opt/docker/mysql:/var/lib/mysql -v volume=/opt/docker/mysql/conf.d:/etc/mysql/conf.d -p 3306:3306 mysql:8.0.21`
+Khởi tạo MySQL container
+`docker run -it -d --name mysql --network sql -e MYSQL_ROOT_PASSWORD="12345" -v /opt/docker/mysql:/var/lib/mysql -v /opt/docker/mysql/conf.d:/etc/mysql/conf.d -p 3306:3306 mysql:8.0.21`
 
 Hướng dẫn các tham số:
 – "docker run": câu lệnh để chạy 1 image và bắt đầu 1 container. Container là một process sử dụng 1 image là nội dung bên trong.
@@ -37,28 +31,28 @@ Hướng dẫn các tham số:
 – "mysql:latest": tên image và tag phiên bản của image sẽ chạy.
 
 Truy cập vào MySQL container
-# docker exec -it mysql01 mysql -uroot -p
+`docker exec -it mysql01 mysql -uroot -p`
 
 Kiểm tra cấu hình max_connections
-mysql -uroot -pmypassword -h127.0.0.1 -P6603 -e 'show global variables like "max_connections"';
+`mysql -uroot -pmypassword -h127.0.0.1 -P6603 -e 'show global variables like "max_connections"';`
 
 Import file .sql vào MySQL container
 Trong phần lớn trường hợp, sau khi đã có MySQL Server, bạn thường muốn import từ file .sql. Bạn có thể chạy câu lệnh sau để import file sql.
-docker exec -i mysql01 mysql -uroot -p123456 --default-character-set=utf8 DATABASENAME < /data/database.sql
+`docker exec -i mysql01 mysql -uroot -p123456 --default-character-set=utf8 DATABASENAME < /data/database.sql`
 
 Thực hiện lần lượt các lệnh sau đây sẽ khởi tạo phpMyAdmin Container trên Docker. Để phpMyAdmin  có thể hoạt động chúng ta cần phải liên kết đến vùng chứa MySQL để phpMyAdmin có thể kết nối và truy cập cơ sở dữ liệu.
 
-# Khởi tạo phpMyAdmin container docker run -d --name phpmyadmin --network sql -e PMA_HOST=sql -p 8080:80 phpmyadmin/phpmyadmin
+Khởi tạo phpMyAdmin container `docker run -d --name phpmyadmin --network sql -e PMA_HOST=sql -p 8080:80 phpmyadmin/phpmyadmin`
 
 Sau khi hoàn thành cài đặt MySQL và phpMyAdmin trên Docker, chúng ta truy cập địa chỉ dạng http://my-ip:8080/
 
 Start, Stop and restart MySQL Container
-docker start [container_name]
-docker stop [container_name]
-docker restart [container_name]
+`docker start [container_name]`
+`docker stop [container_name]`
+`docker restart [container_name]`
 
 Delete MySQL Container
-docker rm [container_name]
+`docker rm [container_name]`
 
 Thảm khảo:
 https://phoenixnap.com/kb/mysql-docker-container
