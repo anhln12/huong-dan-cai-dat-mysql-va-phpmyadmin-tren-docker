@@ -13,9 +13,9 @@ docker network create sql
 
 Thực hiện lần lượt các lệnh sau đây sẽ khởi tạo MySQL Container trên Docker. Trước tiên, hãy tạo một thư mục dùng để lưu dữ liệu rồi sau đó chạy lệnh khởi tạo MySQL Container:
 
-# Khởi tạo thư mục chứa dữ liệu mkdir -p /opt/docker/mysql
-# Khởi tạo thư mục chứa file config 
-#mkdir -p /opt/docker/mysql/conf.d/
+Khởi tạo thư mục chứa dữ liệu mkdir -p /opt/docker/mysql
+Khởi tạo thư mục chứa file config 
+```mkdir -p /opt/docker/mysql/conf.d/```
 vim my-custom.cnf
 [mysqld]
 max_connections=250
